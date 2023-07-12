@@ -1,0 +1,6 @@
+matplotlib==3.7.2
+mlxtend==0.22.0
+pandas==2.0.1
+polars==0.18.7
+pseudopeople==0.6.5
+python_Levenshtein==0.21.1
