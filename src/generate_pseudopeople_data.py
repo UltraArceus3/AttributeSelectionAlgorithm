@@ -1,9 +1,8 @@
 import pseudopeople as psp
 import time
-from record_linkage_feature_selection_apriori import generate_rules,save_to_csv  
+from record_linkage_feature_selection_apriori import generate_rules
 from mlxtend.preprocessing import TransactionEncoder
-from mlxtend.frequent_patterns import apriori, association_rules,fpgrowth
-from anomaly_detection import interest_measures
+from mlxtend.frequent_patterns import fpgrowth
 import pandas as pd
 
 config_dec = {

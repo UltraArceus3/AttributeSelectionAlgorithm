@@ -1,6 +1,6 @@
 import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
-from mlxtend.frequent_patterns import apriori, association_rules,fpgrowth
+from mlxtend.frequent_patterns import fpgrowth
 import time
 from generateChart import plotChart
 from decimal import *

@@ -1,14 +1,6 @@
-# import modin.pandas as pd
-# import modin.config as modin_cfg
-
-# #df = pd.read_csv(r"C:\Users\Nachiket Deo\Documents\Rule-Based-ML\data\ds5.1.1")
-
-# modin_cfg.Engine.put("ray")
-
 import polars as pd
 import random
 import Levenshtein 
-from multiprocessing import Pool
 
 
 random.seed(0)

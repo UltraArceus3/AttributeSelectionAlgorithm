@@ -1,10 +1,3 @@
-# import modin.pandas as pd
-# import modin.config as modin_cfg
-
-# #df = pd.read_csv(r"C:\Users\Nachiket Deo\Documents\Rule-Based-ML\data\ds5.1.1")
-
-# modin_cfg.Engine.put("ray")
-
 import pandas as pd
 import random
 
@@ -17,10 +10,6 @@ df_1 = pd.read_csv(r"C:\Users\Nachiket Deo\Documents\Rule-Based-ML\data\ds5.1.1"
 df_SSN = df_1['SSN'].tolist()
 
 df_2 = pd.read_csv(r"C:\Users\Nachiket Deo\Documents\Rule-Based-ML\data\ds5.1.2",sep='\t',header=None,names=colnames)
-
-# [Kamel,Rany,11,123] -- 120
-# [Kamel,Rany,11,123] -- 1
-# [Kamel,Ran,11,123]  -- 3
 
 
 
