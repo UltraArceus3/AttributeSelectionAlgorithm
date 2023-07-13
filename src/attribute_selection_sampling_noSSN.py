@@ -1,59 +1,9 @@
-import polars as pd
+import polars as pl
 import random
-import Levenshtein 
-
-
-random.seed(0)
-
-sample_ds_1 = r"../data/ds_sample.1.1"
-sample_ds_2 = r"../data/ds_sample.1.2"
-
-samp1 = lambda x: r"../data/pse_sample{}.1.1".format(x)
-samp2 = lambda x: r"../data/pse_sample{}.1.2".format(x)
-
-colnames=['SSN', 'Last_Name', 'First_Name', 'DOB','DOD']
-
-col_names_psedu = ['simulant_id', 'first_name', 'middle_initial', 'last_name', 'age',     
-       'date_of_birth', 'street_number', 'street_name', 'unit_number', 'city',
-       'state', 'zipcode', 'relation_to_reference_person', 'sex',
-       'race_ethnicity']
+import Levenshtein
 
 
 
-df_1 = pd.read_csv(r"../data/pse_dec.1.1",separator='\t',has_header=False,new_columns=col_names_psedu,dtypes={
-    'simulant_id':pd.Utf8, 
-    'first_name':pd.Utf8, 
-    'middle_initial':pd.Utf8, 
-    'last_name':pd.Utf8, 
-    'age':pd.Utf8,     
-    'date_of_birth':pd.Utf8, 
-    'street_number':pd.Utf8, 
-    'street_name':pd.Utf8, 
-    'unit_number':pd.Utf8, 
-    'city':pd.Utf8,
-    'state':pd.Utf8, 
-    'zipcode':pd.Utf8, 
-    'relation_to_reference_person':pd.Utf8, 
-    'sex':pd.Utf8,
-    'race_ethnicity':pd.Utf8
-})
-df_2 = pd.read_csv(r"../data/pse_dec.1.2",separator='\t',has_header=False,new_columns=col_names_psedu,dtypes={
-    'simulant_id':pd.Utf8, 
-    'first_name':pd.Utf8, 
-    'middle_initial':pd.Utf8, 
-    'last_name':pd.Utf8, 
-    'age':pd.Utf8,     
-    'date_of_birth':pd.Utf8, 
-    'street_number':pd.Utf8, 
-    'street_name':pd.Utf8, 
-    'unit_number':pd.Utf8, 
-    'city':pd.Utf8,
-    'state':pd.Utf8, 
-    'zipcode':pd.Utf8, 
-    'relation_to_reference_person':pd.Utf8, 
-    'sex':pd.Utf8,
-    'race_ethnicity':pd.Utf8
-})
 
 BLOCKING_ATTRIBUTE = 3
 ## 3 - Last Name for Pseduopeople
@@ -76,7 +26,7 @@ output_records_sample = []
 # dict{1} --> 3
 
 
-def de_duplication(dataset:pd.DataFrame):
+def de_duplication(dataset: pl.DataFrame):
     dataset_pand = dataset.to_pandas() ## Converts to pandas dataframe
     dataset_pand_lst = dataset_pand.values.tolist() ## Converts to list of list
     index_original_df = {}
@@ -125,7 +75,7 @@ def generate_k_mer(str_d, k:int) -> list:
 
 
 
-def generatePairs(df_sorted:pd.DataFrame, index_duplicate:dict, key:int):
+def generatePairs(df_sorted: pl.DataFrame, index_duplicate:dict, key:int):
     
     output_records_sample.append(df_sorted[index_duplicate[key]])
     if (key + 1 < len(index_duplicate)) and (index_duplicate[key] != index_duplicate[key+1] - 1):
@@ -142,7 +92,7 @@ def generatePairs(df_sorted:pd.DataFrame, index_duplicate:dict, key:int):
 ##
 
 
-def random_data_generation(df_sorted:pd.DataFrame, de_duplicate:list, index_duplicate: dict, total_rate: float = TOTAL_RATE) -> None:
+def random_data_generation(df_sorted: pl.DataFrame, de_duplicate:list, index_duplicate: dict, total_rate: float = TOTAL_RATE) -> None:
     
     ## Generate Random records from de_duplicate
     ## Total number of records to be generated are total_number of records (de_duplicate) * TOTAL_RATE
@@ -198,18 +148,12 @@ def random_data_generation(df_sorted:pd.DataFrame, de_duplicate:list, index_dupl
                 generatePairs(df_sorted, index_duplicate, index)
             
 
-def write_output(_sep = "\t", sample_ds_1 = "sample_ds_1.txt", sample_ds_2 = "sample_ds_2.txt"):
+def write_output(_sep = "\t", sample_ds_1 = "sample_ds_1.txt", sample_ds_2 = "sample_ds_2.txt", headers = []):
     _flip = 0 # 0 for ds_1, 1 for ds_2
     flip_cond = lambda : _flip % 2
 
-    head = ["SSN", "Last_Name", "First_Name", "DOB", "DOD"]
-    head_pse = ['simulant_id', 'first_name', 'middle_initial', 'last_name', 'age',     
-       'date_of_birth', 'street_number', 'street_name', 'unit_number', 'city',
-       'state', 'zipcode', 'relation_to_reference_person', 'sex',
-       'race_ethnicity']
 
-
-    header = _sep.join(head_pse) + "\n"
+    header = _sep.join(headers) + "\n"
 
     with open(sample_ds_1, 'w',encoding = "utf-8") as f1, open(sample_ds_2, 'w',encoding = "utf-8") as f2:
         f1.write(header)
@@ -231,7 +175,7 @@ def write_output(_sep = "\t", sample_ds_1 = "sample_ds_1.txt", sample_ds_2 = "sa
 # AALTO     ┆ ROBERT     ┆ 6222003 ┆ 5091963
 # aaltop    ┆ robert     ┆ 6222003 ┆ 5091963
 
-def time_code(tr_samps: list) -> list:
+def time_code(df: pl.DataFrame, tr_samps: list, out_file_1 = "./data/pse_sample.1.1", out_file_2 = "./data/pse_sample.1.2") -> list:
     import time
 
     times = []
@@ -241,56 +185,67 @@ def time_code(tr_samps: list) -> list:
         output_records_sample.clear()
 
         start = time.time()
-
-        ''' Formatting Data '''
-        df_merged = pd.concat([df_1, df_2])
-        #df_sorted = df_merged.sort(by=['Last_Name','First_Name','DOB','DOD'],descending=False)
-        df_sorted = df_merged.sort(by=['first_name', 'middle_initial', 'last_name', 'age',     
-       'date_of_birth', 'street_number', 'street_name', 'unit_number', 'city',
-       'state', 'zipcode', 'relation_to_reference_person', 'sex',
-       'race_ethnicity'],descending=False)
         
-        de_duplicate, index_duplicate = de_duplication(df_sorted)
+        de_duplicate, index_duplicate = de_duplication(df)
         do_blocking(de_duplicated_set=de_duplicate)
 
         ''' Random Data Generation '''
-        random_data_generation(df_sorted, de_duplicate, index_duplicate, tr)
+        random_data_generation(df, de_duplicate, index_duplicate, tr)
         end = time.time()
         times.append(end - start)
 
         print(f"Time taken: {times[-1]} seconds")
 
+        samp1 = lambda x: f"{out_file_1}.{x}"
+        samp2 = lambda x: f"{out_file_2}.{x}"
+
         write_output(sample_ds_1 = samp1(int(tr*100)), sample_ds_2 = samp2(int(tr*100)))
 
     return times
 
-def main():
+def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
 
     tr_samp = [.03, .04, .05]
-    # with Pool(5) as p:
-    #     times = p.map(time_code, [[.03],[.04],[.05]])
 
-    # times = time_code(tr_samp)
+    if type(output_files) is str:
+        out1 = f"{output_files}.1"
+        out2 = f"{output_files}.2"
+    elif type(output_files) is list:
+        out1 = output_files[0]
+        out2 = output_files[1]
+    else:
+        raise TypeError("output_files must be a string or a list of strings")
+
+    times = time_code(df, tr_samp, out_file_1 = out1, out_file_2 = out2)
 
     #print(times)
 
-    #times_n = [l[0] for l in times]
-    times_n = [5704.23,7371.92,8620.08]
+    times_n = [l[0] for l in times]
+
+    return times_n, tr_samp
     
+
+
+def _plot(times, tr_samples, fig_name = "./fig.png", xticks = None, yticks = None):
     import matplotlib.pyplot as plt
-    plt.plot(times_n, [int(x*100) for x in tr_samp], marker='o', linestyle='--')
+    plt.plot(times, [int(x*100) for x in tr_samples], marker='o', linestyle='--')
     plt.xlabel("Run Time (s)")
     plt.ylabel("Total Rate (%)")
-    plt.xticks([5500,6000,6500,7000,7500,8000,8500])
-    plt.yticks([2,3,4,5,6])
+
+    if xticks:
+        plt.xticks(xticks)
+
+    if yticks:
+        plt.yticks(yticks)
+
     plt.grid()
-    plt.savefig("../data/code_total_rate.png")
+    plt.savefig(fig_name)
     plt.show()
 
     
 
 if __name__ == "__main__":
-    main()
+    _plot(*attribute_sampling(), xticks = [5500,6000,6500,7000,7500,8000,8500], yticks = [2,3,4,5,6])
 
 
 
