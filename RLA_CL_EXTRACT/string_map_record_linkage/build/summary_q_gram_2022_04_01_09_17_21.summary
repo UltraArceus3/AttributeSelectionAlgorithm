@@ -1,0 +1,26 @@
+
+Number of input strings             = 5,000,000
+Number of unique strings            = 240,118
+Number of dimensions                = 30
+Mapping time                        = 1.0679e+06 ms
+Summary time                        = 899.309 ms
+Summary time per 1M record pairs    = 29,977 ms
+Number of record pairs investigated = 30,000
+
+================================================
+Edit  Euclidean Euclidean Euclidean Number of   
+Dist  Min       Avg       Max       Record paris
+================================================
+   2  0         0.2524    0.4286    5         
+   3  0         0.1173    0.6       61        
+   4  0         0.06299   0.4286    595       
+   5  0         0.03024   0.375     2,449     
+   6  0         0.01723   0.4545    5,726     
+   7  0         0.01331   0.3       7,963     
+   8  0         0.01128   0.25      6,781     
+   9  0         0.01021   0.25      3,903     
+  10  0         0.008847  0.2308    1,757     
+  11  0         0.008459  0.1429    603       
+  12  0         0.003884  0.07692   148       
+  13  0         0         0         9         
+================================================

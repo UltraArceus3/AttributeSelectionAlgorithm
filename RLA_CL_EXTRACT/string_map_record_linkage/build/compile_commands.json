@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/nachiket/string_map_record_linkage/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -DBOOST_ALL_NO_LIB -DBOOST_ATOMIC_DYN_LINK -DBOOST_CHRONO_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_LOG_DYN_LINK -DBOOST_REGEX_DYN_LINK -DBOOST_THREAD_DYN_LINK -I../include -I/usr/include/libxml2 -g -o CMakeFiles/stringMap.dir/src/distances.cpp.o -c /home/nachiket/string_map_record_linkage/src/distances.cpp",
+  "file": "/home/nachiket/string_map_record_linkage/src/distances.cpp"
+},
+{
+  "directory": "/home/nachiket/string_map_record_linkage/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -DBOOST_ALL_NO_LIB -DBOOST_ATOMIC_DYN_LINK -DBOOST_CHRONO_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_LOG_DYN_LINK -DBOOST_REGEX_DYN_LINK -DBOOST_THREAD_DYN_LINK -I../include -I/usr/include/libxml2 -g -o CMakeFiles/stringMap.dir/src/string_map.cpp.o -c /home/nachiket/string_map_record_linkage/src/string_map.cpp",
+  "file": "/home/nachiket/string_map_record_linkage/src/string_map.cpp"
+},
+{
+  "directory": "/home/nachiket/string_map_record_linkage/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -DBOOST_ALL_NO_LIB -DBOOST_ATOMIC_DYN_LINK -DBOOST_CHRONO_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_LOG_DYN_LINK -DBOOST_REGEX_DYN_LINK -DBOOST_THREAD_DYN_LINK -I../include -I/usr/include/libxml2 -g -o CMakeFiles/stringMap.dir/src/test_string_map.cpp.o -c /home/nachiket/string_map_record_linkage/src/test_string_map.cpp",
+  "file": "/home/nachiket/string_map_record_linkage/src/test_string_map.cpp"
+},
+{
+  "directory": "/home/nachiket/string_map_record_linkage/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -DBOOST_ALL_NO_LIB -DBOOST_ATOMIC_DYN_LINK -DBOOST_CHRONO_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_LOG_DYN_LINK -DBOOST_REGEX_DYN_LINK -DBOOST_THREAD_DYN_LINK -I../include -I/usr/include/libxml2 -g -o CMakeFiles/stringMap.dir/src/utils.cpp.o -c /home/nachiket/string_map_record_linkage/src/utils.cpp",
+  "file": "/home/nachiket/string_map_record_linkage/src/utils.cpp"
+}
+]
