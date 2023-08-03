@@ -1,0 +1,39 @@
+# variable definition
+CC			:= g++
+SRC_DIR		:= src
+OBJ_DIR		:= obj
+EXEC_DIR	:= bin
+SRC			:= $(wildcard $(SRC_DIR)/*.cc)
+OBJ			:= $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cc=.o)))
+EXEC		:= $(EXEC_DIR)/rlacl
+DEBUG		:= #-g3
+OPT			:= -O3
+WARN		:= #-Wall
+MISC		:= -std=c++20 -c -fmessage-length=0
+CFLAG		:= $(OPT) $(DEBUG) $(WARN) $(MISC) -DBOOST_LOG_DYN_LINK 
+
+INC			:= -I/usr/include/libxml2 #/opt/local/include/libxml2
+LIB			:= -lxml2 -lboost_log_setup -lboost_filesystem -lboost_log -lboost_thread -lboost_program_options -lboost_system -lboost_chrono -lboost_regex -pthread
+
+RM			:= rm -rf
+
+# call all
+all: dir $(OBJ)
+	@echo "Building target: $(EXEC)"
+	g++ -o $(EXEC) $(OBJ) $(LIB)
+	@echo "Finished building target: $(EXEC)"
+	@echo ""
+	
+dir:
+	mkdir -p obj
+	mkdir -p bin
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
+	@echo "Building file: $<"
+	g++ $(INC) $(CFLAG)	-o "$@" "$<"
+	@echo "Finished building file: $<"
+	@echo
+	
+# call clean
+clean:
+	$(RM) $(OBJ) $(EXEC)
