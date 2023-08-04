@@ -34,9 +34,6 @@
 # Exclude IDE project configuration files
 .idea
 
-# Exclude binaries
-bin
-
 # Data directory
 data
 

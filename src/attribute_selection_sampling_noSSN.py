@@ -216,13 +216,7 @@ def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
 
     times = time_code(df, tr_samp, out_file_1 = out1, out_file_2 = out2)
 
-    #print(times)
-    if type(times) is list:
-        times_n = [l[0] for l in times]
-    else:
-        times_n = times
-
-    return times_n, tr_samp
+    return times
     
 
 
