@@ -5,6 +5,7 @@ import os, subprocess
 import pandas as pd
 from parse_xml import parse_xml
 from feature_selection_data_prune import prune_feature_data
+from record_linkage_feature_selection_apriori import run_pipeline as run_apriori
 
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -54,16 +55,27 @@ def call_RLA():
 def feature_prune():
     prune_feature_data(path = "../data/feature_selection_processed_data_file.csv", output = config["pruned_output"], keep = config["FEATURE_PRUNE_KEEP"])
 
+def apriori():
+    run_apriori(config["pruned_output"], output_file = config["rules_output"])
 
 if __name__ == "__main__":
     #call_RLA(*list(config["sample_output"].values()))
     #exit()
 
     if config["run"]["attribute_selection"]:
+        print("Running attribute selection sampling...\n")
         attribute_selection()
 
     if config["run"]["RLA_CL_EXTRACT"]:
+        print("Running RLA_CL_EXTRACT...\n")
         call_RLA()
 
     if config["run"]["feature_prune"]:
+        print("Running feature pruning...\n")
         feature_prune()
+
+    if config["run"]["apriori"]:
+        print("Running apriori...\n")
+        apriori()
+
+    print("Done!")

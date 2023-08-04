@@ -26,6 +26,8 @@ rla_xml_file: "../data/config.xml"
 FEATURE_PRUNE_KEEP: 0.2
 pruned_output: "../data/pruned_out.csv"
 
+# Apriori
+rules_output: "../data/rules_out.csv"
 
 
 
@@ -34,6 +36,6 @@ run:
   attribute_selection: True
   RLA_CL_EXTRACT: True
   feature_prune: True
-  apiori: True
+  apriori: True
 
 sample_size: 50000

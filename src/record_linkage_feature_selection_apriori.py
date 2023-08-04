@@ -275,7 +275,7 @@ def generate_rules(frequent_itemsets):
     
 
 
-def run_pipeline(src):
+def run_pipeline(src, output_file = "../.output/rules.csv"):
 
     df = pd.read_csv(src,names=['Attr_1', 'Attr_2', 'Attr_3', 'Attr_4','Attr_5','Attr_6','Attr_7','Attr_8','Attr_9','Attr_10','Attr_11','Attr_12','Attr_13','Attr_14','match'])
     df = df.astype(str)
@@ -293,7 +293,7 @@ def run_pipeline(src):
     print(rules[0:15])
 
     print("Saving rules to CSV...")
-    save_to_csv(rules)
+    save_to_csv(rules, _file = output_file)
     print("Saved to CSV!")
 
 def main():
