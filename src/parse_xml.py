@@ -149,5 +149,11 @@ def parse_xml():
     soup_string = str(root)
     tree = ET.XML(soup_string)
 
-    with open ("../data/config_test.xml", "wb") as files :
-        files.write(ET.tostring(tree))
+    from xml.dom import minidom
+
+    xmlstr = minidom.parseString(ET.tostring(tree)).toprettyxml(indent="   ")
+    with open("../data/config_test.xml", "w") as f:
+        f.write(xmlstr)
+
+    # with open ("../data/config_test.xml", "wb") as files :
+    #     files.write()
