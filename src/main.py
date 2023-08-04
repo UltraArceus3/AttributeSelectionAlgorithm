@@ -4,6 +4,7 @@ from attribute_selection_sampling_noSSN import attribute_sampling
 import os, subprocess
 import pandas as pd
 from parse_xml import parse_xml
+from feature_selection_data_prune import prune_feature_data
 
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -44,12 +45,14 @@ def attribute_selection():
 def call_RLA():
     parse_xml()
 
-
     sample_data = pd.read_csv(config["input_files"]["input_file_1"], sep = '\t', header = None)
 
     generate_processed_data = subprocess.check_call([os.path.join(RLA_DIR, "bin/rlacl")] + [config["rla_xml_file"], str(len(sample_data)), "0","0","0","0"])
 
     subprocess.run(["mv", os.path.join(RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
+
+def feature_prune():
+    prune_feature_data(path = "../data/feature_selection_processed_data_file.csv", output = config["pruned_output"], keep = config["FEATURE_PRUNE_KEEP"])
 
 
 if __name__ == "__main__":
@@ -61,3 +64,6 @@ if __name__ == "__main__":
 
     if config["run"]["RLA_CL_EXTRACT"]:
         call_RLA()
+
+    if config["run"]["feature_prune"]:
+        feature_prune()

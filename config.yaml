@@ -1,3 +1,4 @@
+# Attribute Selection
 BLOCKING_ATTRIBUTE: 3
 COMPARISON_ATTRIBUTE: [1,2,3,4]
 TOTAL_RATE: 8/100
@@ -18,13 +19,21 @@ sample_output:
   output_file_1: "../data/out.1"
   output_file_2: "../data/out.2"
 
+# RLA_CL_EXTRACT
 rla_xml_file: "../data/config.xml"
 
+# Feature Pruning
+FEATURE_PRUNE_KEEP: 0.2
+pruned_output: "../data/pruned_out.csv"
 
+
+
+
+# RUN
 run:
   attribute_selection: True
   RLA_CL_EXTRACT: True
-  feature_selection: True
+  feature_prune: True
   apiori: True
 
 sample_size: 50000
