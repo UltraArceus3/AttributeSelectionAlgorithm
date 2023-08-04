@@ -107,7 +107,6 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate:list, index_dup
     # dict_blocks[Kam] = [1,10..]
     # dict_blocks[Ame] = [1,10..]
     # dict_blocks[Mel] = [1,10..]
-    # [1,1,1,10,10,10] -- >set
 
     # get random sample of indexes
     samp = random.sample(range(0, len(de_duplicate)), int(len(de_duplicate) * total_rate))
@@ -196,16 +195,13 @@ def time_code(df: pl.DataFrame, tr_samps: list, out_file_1 = "./data/pse_sample.
 
         print(f"Time taken: {times[-1]} seconds")
 
-        samp1 = lambda x: f"{out_file_1}.{x}"
-        samp2 = lambda x: f"{out_file_2}.{x}"
-
-        write_output(sample_ds_1 = samp1(int(tr*100)), sample_ds_2 = samp2(int(tr*100)))
+        write_output(sample_ds_1 = out_file_1, sample_ds_2 = out_file_2)
 
     return times
 
 def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
 
-    tr_samp = [.03, .04, .05]
+    tr_samp = [TOTAL_RATE]
 
     if type(output_files) is str:
         out1 = f"{output_files}.1"
@@ -219,8 +215,10 @@ def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
     times = time_code(df, tr_samp, out_file_1 = out1, out_file_2 = out2)
 
     #print(times)
-
-    times_n = [l[0] for l in times]
+    if type(times) is list:
+        times_n = [l[0] for l in times]
+    else:
+        times_n = times
 
     return times_n, tr_samp
     

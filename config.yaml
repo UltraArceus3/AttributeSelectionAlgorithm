@@ -12,8 +12,10 @@ header: ['simulant_id', 'first_name', 'middle_initial', 'last_name', 'age',
        'state', 'zipcode', 'relation_to_reference_person', 'sex',
        'race_ethnicity']
 
+id_column: "simulant_id"
+
 sample_output:
-  output_file_1: ""
-  output_file_2: ""
+  output_file_1: "../data/out.1"
+  output_file_2: "../data/out.2"
 
 sample_size: 50000

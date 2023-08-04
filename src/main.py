@@ -1,8 +1,11 @@
 import yaml
 import polars as pl
 from attribute_selection_sampling_noSSN import attribute_sampling
+import os, subprocess
+import pandas as pd
+from parse_xml import parse_xml
 
-with open('config.yaml', 'r') as f:
+with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
 
 
@@ -10,9 +13,24 @@ with open('config.yaml', 'r') as f:
 #C++ for generating processed dataset -> 
 #feature_selection_data_prune -> 
 #apriori.py
-        
+
+RLA_DIR = "../RLA_CL_EXTRACT/"
+
+
+def call_RLA(out_1, out_2):
+    parse_xml()
+
+
+    sample_data = pd.read_csv(out_1, sep = '\t', header = None)
+
+    generate_processed_data = subprocess.check_call([os.path.join(RLA_DIR, "bin/rlacl")] + ["config_test.xml", str(len(sample_data)), "0","0","0","0"])
+
+    subprocess.run(["mv", os.path.join(RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
+
 
 if __name__ == "__main__":
+    #call_RLA(*list(config["sample_output"].values()))
+    #exit()
 
     id = config['id_column']
 
@@ -34,5 +52,6 @@ if __name__ == "__main__":
     df_sorted = df_merged.sort(by = cols_wo_id, descending = False)
 
 
+    attribute_sampling(df_sorted, output_files = list(config["sample_output"].values()))
 
-    attribute_sampling(df_sorted, output_files = config["sample_output"])
+    call_RLA()
