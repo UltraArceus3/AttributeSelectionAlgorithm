@@ -18,4 +18,13 @@ sample_output:
   output_file_1: "../data/out.1"
   output_file_2: "../data/out.2"
 
+rla_xml_file: "../data/config.xml"
+
+
+run:
+  attribute_selection: True
+  RLA_CL_EXTRACT: True
+  feature_selection: True
+  apiori: True
+
 sample_size: 50000

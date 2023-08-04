@@ -11,7 +11,7 @@ def parse_xml():
 
     print(prime_service)
 
-    root = bs("../config_text.xml",'xml')
+    root = bs(prime_service['rla_xml_file'], 'xml')
     rla = root.new_tag('rla-config')
     root.append(rla)
 

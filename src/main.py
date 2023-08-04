@@ -17,21 +17,7 @@ with open('../config.yaml', 'r') as f:
 RLA_DIR = "../RLA_CL_EXTRACT/"
 
 
-def call_RLA(out_1, out_2):
-    parse_xml()
-
-
-    sample_data = pd.read_csv(out_1, sep = '\t', header = None)
-
-    generate_processed_data = subprocess.check_call([os.path.join(RLA_DIR, "bin/rlacl")] + ["config_test.xml", str(len(sample_data)), "0","0","0","0"])
-
-    subprocess.run(["mv", os.path.join(RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
-
-
-if __name__ == "__main__":
-    #call_RLA(*list(config["sample_output"].values()))
-    #exit()
-
+def attribute_selection():
     id = config['id_column']
 
     col_names = config['header']
@@ -54,4 +40,24 @@ if __name__ == "__main__":
 
     attribute_sampling(df_sorted, output_files = list(config["sample_output"].values()))
 
-    call_RLA()
+
+def call_RLA():
+    parse_xml()
+
+
+    sample_data = pd.read_csv(config["input_files"]["input_file_1"], sep = '\t', header = None)
+
+    generate_processed_data = subprocess.check_call([os.path.join(RLA_DIR, "bin/rlacl")] + [config["rla_xml_file"], str(len(sample_data)), "0","0","0","0"])
+
+    subprocess.run(["mv", os.path.join(RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
+
+
+if __name__ == "__main__":
+    #call_RLA(*list(config["sample_output"].values()))
+    #exit()
+
+    if config["run"]["attribute_selection"]:
+        attribute_selection()
+
+    if config["run"]["RLA_CL_EXTRACT"]:
+        call_RLA()
