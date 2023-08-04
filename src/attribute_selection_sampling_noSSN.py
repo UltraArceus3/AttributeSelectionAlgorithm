@@ -1,15 +1,17 @@
 import polars as pl
 import random
 import Levenshtein
+import yaml
+
+with open('../config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
 
-
-
-BLOCKING_ATTRIBUTE = 3
+BLOCKING_ATTRIBUTE = config["BLOCKING_ATTRIBUTE"]
 ## 3 - Last Name for Pseduopeople
 
-TOTAL_RATE = 8/100
-THRESHOLD = 1
+TOTAL_RATE = config["TOTAL_RATE"]
+THRESHOLD = config["THRESHOLD"]
 
 dict_blocks = {}
 
