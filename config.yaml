@@ -1,7 +1,7 @@
 # Attribute Selection
-BLOCKING_ATTRIBUTE: 3
+BLOCKING_ATTRIBUTE: 1
 COMPARISON_ATTRIBUTE: [1,2,3,4]
-TOTAL_RATE: 8/100
+TOTAL_RATE: 0.02
 THRESHOLD: 1
 
 input_files:
@@ -16,11 +16,11 @@ header: ['simulant_id', 'first_name', 'middle_initial', 'last_name', 'age',
 id_column: "simulant_id"
 
 sample_output:
-  output_file_1: "../data/out.1"
-  output_file_2: "../data/out.2"
+  output_file_1: '../data/out.1.1'
+  output_file_2: '../data/out.1.2'
 
 # RLA_CL_EXTRACT
-rla_xml_file: "../data/config.xml"
+rla_xml_file: "../data/config_test.xml"
 
 # Feature Pruning
 FEATURE_PRUNE_KEEP: 0.2
@@ -33,7 +33,7 @@ rules_output: "../data/rules_out.csv"
 
 # RUN
 run:
-  attribute_selection: True
+  attribute_selection: False
   RLA_CL_EXTRACT: True
   feature_prune: True
   apriori: True

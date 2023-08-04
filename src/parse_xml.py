@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup as bs
 import yaml
 
 
+
 def parse_xml():
 
     with open('../config.yaml', 'r') as file:
@@ -145,12 +146,8 @@ def parse_xml():
 
     version_conf.append(results_log)
         
-    with open ("config_test.xml", "w") as files :
-        files.write(root.prettify())
+    soup_string = str(root)
+    tree = ET.XML(soup_string)
 
-
-
-
-
-    print(root.prettify())
-
+    with open ("../data/config_test.xml", "wb") as files :
+        files.write(ET.tostring(tree))
