@@ -19,7 +19,7 @@ with open('../config.yaml', 'r') as f:
 RLA_DIR = "../RLA_CL_EXTRACT/"
 
 
-def attribute_selection():
+def sample_generation():
     id = config['id_column']
 
     col_names = config['header']
@@ -62,11 +62,11 @@ if __name__ == "__main__":
     #call_RLA(*list(config["sample_output"].values()))
     #exit()
 
-    if config["run"]["attribute_selection"]:
+    if config["run"]["sample_generation"]:
         print("Running attribute selection sampling...\n")
-        attribute_selection()
+        sample_generation()
 
-    if config["run"]["RLA_CL_EXTRACT"]:
+    if config["run"]["processed_data_generation"]:
         print("Running RLA_CL_EXTRACT...\n")
         call_RLA()
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         print("Running feature pruning...\n")
         feature_prune()
 
-    if config["run"]["apriori"]:
+    if config["run"]["attribute_selection"]:
         print("Running apriori...\n")
         apriori()
 
