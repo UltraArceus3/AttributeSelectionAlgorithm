@@ -1,0 +1,98 @@
+# Attribute Selection algorithm pipeline 
+
+
+# Attribute on the basis of which blocking needs to be performed (Very important with respect to performance)
+# Needed while sample generation and generation of processed data.
+# The number should be between
+
+BLOCKING_ATTRIBUTE: 3
+
+##
+##
+##
+
+COMPARISON_ATTRIBUTE: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+
+##
+## Sampling Rate (how much should be the size of sample with respect to the unique records in it)
+##
+TOTAL_RATE: 0.02
+
+##
+## This is used to allow errors while identifying records. What is threshold tolerable while perfoming the linking.
+##
+
+THRESHOLD: 2
+
+
+
+# Input data files. (Please place them in the data folder)
+
+
+input_files:
+  input_file_1: "../data/pse_dec.1.1"
+  input_file_2: "../data/pse_dec.1.2"
+
+
+#
+# Names of the Attributes and the location in the dataset.
+#
+
+header: ['simulant_id', 'first_name', 'middle_initial', 'last_name', 'age',     
+       'date_of_birth', 'street_number', 'street_name', 'unit_number', 'city',
+       'state', 'zipcode', 'relation_to_reference_person', 'sex',
+       'race_ethnicity']
+
+#
+# Unique identifier for the data
+#
+
+id_column: "simulant_id"
+
+#
+# Names of the files generated after sampling (NO NEED to change this)
+#
+
+sample_output:
+  output_file_1: '../data/out.1.1'
+  output_file_2: '../data/out.1.2'
+
+
+#
+# Name of the configuration file for RLA code (NO NEED to change this)
+#
+
+rla_xml_file: "../data/config_test.xml"
+
+# OPTIONAL
+# The extraneous data will get pruned. This parameter gives freedom to specofy amount of duplicate records (extraneous) can be there
+# Suggested value between 0.2 to 0.3
+
+
+FEATURE_PRUNE_KEEP: 0.2
+
+
+##
+## NO NEED to change this.
+##
+
+pruned_output: "../data/pruned_out.csv"
+
+
+##
+## NO NEED to change this.
+##
+
+rules_output: "../data/rules_out.csv"
+
+
+##
+## Stages of the PIPELINE
+## Can enable disable stages. Each stage requires output from previous stage (Please take note of this).
+##
+
+run:
+  sample_generation: False
+  processed_data_generation: False
+  feature_prune: False
+  attribute_selection: True

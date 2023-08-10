@@ -1,0 +1,30 @@
+
+Number of input strings             = 5,000,000
+Number of unique strings            = 240,118
+Number of dimensions                = 10
+Mapping time                        = 0 ms
+Summary time                        = 2.23817 ms
+Summary time per 1M record pairs    = 44,763.4 ms
+Number of record pairs investigated = 50
+
+================================================
+Edit  Euclidean Euclidean Euclidean Number of   
+Dist  Min       Avg       Max       Record paris
+================================================
+   4  0.1111    0.1111    0.1111    1         
+   5  0         0.02      0.1       5         
+   6  0         0         0         8         
+   7  0         0.03182   0.1667    11        
+   8  0         0.007143  0.1       14        
+   9  0         0         0         5         
+  10  0         0         0         2         
+  11  0         0         0         4         
+================================================
+
+================================================
+theta   = 0
+tau     = 0
+n_skips = 6 / 50 ( 12 % ) 
+tp      = 6 / 6 ( 100 % ) 
+fp      = 0 / 0 ( -nan % ) 
+================================================

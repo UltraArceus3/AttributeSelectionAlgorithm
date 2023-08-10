@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+void main(){
+  int i=5;
+  printf("%d%d%d%d%d",i++,i--,++i,--i,i);
+
+  int *p=5;
+
+  printf("%ls",p);
+}
