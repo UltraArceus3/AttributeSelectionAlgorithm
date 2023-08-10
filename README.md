@@ -36,3 +36,9 @@
 3. Other stages of the pipeline can run togther by changing the sub attributes in **run** to True and setting **sample_generation** to False. This is done so that program doesn't crash.
 4. Once all stages are completed, in order to find the attributes please take a look at **rules_out.csv** inside **data** folder.
 
+### Interpret the Output
+1. The headers of the output are attributes from the nout dataset set as integer value [0,1,2,3] and M,lift,leverage,convergence where M stands what value was there in Y for association rule (X --> Y)
+2. The contents may have values like 0,1,2 which stands for the edit distance for the respective attribute.
+3. The output is sorted with best rules at the top (Having high value for lift,conviction and leverage)
+   
+
