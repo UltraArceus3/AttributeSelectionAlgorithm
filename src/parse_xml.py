@@ -13,13 +13,11 @@ import yaml
 
 
 def parse_xml():
-
     """
         File reads the config.yaml to find contents like input dataset path,threshold, 
         headers, blocking attribute and generates xml using beautiful soup.
 
     """
-    
 
     with open('../config.yaml', 'r') as file:
         prime_service = yaml.safe_load(file)
@@ -156,11 +154,12 @@ def parse_xml():
 
     version_conf.append(results_log)
 
-    ##
-    # This code is necessary as beautifulsoup generates xml with white space and newlines which lead to
-    # issues in running the RLA code.
-    # BeautifulSoup --> String ---> ElementTree --> minidom (prettyxml)
-    ##
+    """
+        This code is necessary as beautifulsoup generates xml with white space and newlines which lead to
+        issues in running the RLA code.
+        BeautifulSoup --> String ---> ElementTree --> minidom (prettyxml)
+
+    """
 
     soup_string = str(root)
     tree = ET.XML(soup_string)
