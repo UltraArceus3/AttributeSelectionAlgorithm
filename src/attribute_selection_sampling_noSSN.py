@@ -35,6 +35,10 @@ OUTPUT: de-duplicate Dataset (that contains unique records) and a dictionary wit
 in de-duplicate dataset and it's location in the original dataset.
 information about the location is needed later to find exact matches.
 
+    for e.g
+    Original-  [Rany,Kamel], [Rany,Kamel]  [Nachiket,Deo] , [Nachiket Deo]
+    De-duplicate-  [Rany,Kamel] [Nachiket,Deo]
+
 """
 
 
@@ -115,14 +119,9 @@ def generatePairs(df_sorted: pl.DataFrame, index_duplicate: dict, key: int):
         output_records_sample.append(df_sorted[index_duplicate[key] + 1])
 
 
-# Original [Rany,Kamel], [Rany,Kamel]  [Nachiket,Deo] , [Nachiket Deo]
-# De-duplicate [Rany,Kamel] [Nachiket,Deo]
-    # key = 0 [Rany Kamel]
-    # Key + 1 = 2 --> [Nachiket Deo]
 
-##
-# TO BE IMPLEMENTED BY RANY
-##
+
+
 
 
 """
