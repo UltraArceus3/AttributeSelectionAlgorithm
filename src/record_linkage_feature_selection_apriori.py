@@ -277,7 +277,14 @@ def generate_rules(frequent_itemsets):
 
 def run_pipeline(src, output_file = "../.output/rules.csv"):
 
-    df = pd.read_csv(src,names=['Attr_1', 'Attr_2', 'Attr_3', 'Attr_4','Attr_5','Attr_6','Attr_7','Attr_8','Attr_9','Attr_10','Attr_11','Attr_12','Attr_13','Attr_14','match'])
+    df = pd.read_csv(src, header = None)
+
+    #names=['Attr_1', 'Attr_2', 'Attr_3', 'Attr_4','Attr_5','Attr_6','Attr_7','Attr_8','Attr_9','Attr_10','Attr_11','Attr_12','Attr_13','Attr_14','match']
+
+    cols = [f"Attr_{i}" for i in range(1, len(df.columns))] + ['match']
+
+    df.columns = cols
+
     df = df.astype(str)
     val = 1
     #df = df[df['match'] != val].drop_duplicates(subset=['Attr_1', 'Attr_2', 'Attr_3', 'Attr_4'])
