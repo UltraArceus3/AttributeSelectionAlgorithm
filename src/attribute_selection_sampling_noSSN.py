@@ -192,21 +192,16 @@ Two output paths are needed as dataset is split into two files (Necessary condit
 """
 
 
-def write_output(_sep="\t", sample_ds_1="sample_ds_1.txt", sample_ds_2="sample_ds_2.txt", headers=[]):
+def write_output(cols, _sep="\t", sample_ds_1="sample_ds_1.txt", sample_ds_2="sample_ds_2.txt"):
     _flip = 0  # 0 for ds_1, 1 for ds_2
     def flip_cond(): return _flip % 2
 
-    header = _sep.join(headers) + "\n"
-
     with open(sample_ds_1, 'w', encoding="utf-8") as f1, open(sample_ds_2, 'w', encoding="utf-8") as f2:
-        f1.write(header)
-        f2.write(header)
 
         for record in output_records_sample:
             def rec(ind): return str(record[ind].item())
             # record_csv = _sep.join([rec("SSN") , rec("Last_Name"), rec("First_Name"), rec("DOB"), rec("DOD")]) + "\n"
-            record_csv = _sep.join([rec("simulant_id"), rec("first_name"), rec("middle_initial"), rec("last_name"), rec("age"), rec("date_of_birth"), rec("street_number"), rec(
-                "street_name"), rec("unit_number"), rec("city"), rec("state"), rec("zipcode"), rec("relation_to_reference_person"), rec("sex"), rec("race_ethnicity")]) + "\n"
+            record_csv = _sep.join([rec(x) for x in cols]) + "\n"
 
             # print(record_csv)
             if flip_cond():
@@ -216,7 +211,7 @@ def write_output(_sep="\t", sample_ds_1="sample_ds_1.txt", sample_ds_2="sample_d
             _flip += 1
 
 
-def time_code(df: pl.DataFrame, tr_samps: list, out_file_1="./data/pse_sample.1.1", out_file_2="./data/pse_sample.1.2") -> list:
+def time_code(df: pl.DataFrame, columns: list, tr_samps: list, out_file_1="./data/pse_sample.1.1", out_file_2="./data/pse_sample.1.2") -> list:
     import time
 
     times = []
@@ -237,12 +232,12 @@ def time_code(df: pl.DataFrame, tr_samps: list, out_file_1="./data/pse_sample.1.
 
         print(f"Time taken: {times[-1]} seconds")
 
-        write_output(sample_ds_1=out_file_1, sample_ds_2=out_file_2)
+        write_output(columns, sample_ds_1=out_file_1, sample_ds_2=out_file_2)
 
     return times
 
 
-def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
+def attribute_sampling(df: pl.DataFrame, columns: list, output_files: str | list = "./out.1"):
 
     tr_samp = [TOTAL_RATE]
 
@@ -255,7 +250,7 @@ def attribute_sampling(df: pl.DataFrame, output_files: str | list = "./out.1"):
     else:
         raise TypeError("output_files must be a string or a list of strings")
 
-    times = time_code(df, tr_samp, out_file_1=out1, out_file_2=out2)
+    times = time_code(df, columns, tr_samp, out_file_1=out1, out_file_2=out2)
 
     return times
 

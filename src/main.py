@@ -40,7 +40,7 @@ def sample_generation():
     # df_sorted = df_merged.sort(by=['Last_Name','First_Name','DOB','DOD'],descending=False)
     df_sorted = df_merged.sort(by=cols_wo_id, descending=False)
 
-    attribute_sampling(df_sorted, output_files=list(
+    attribute_sampling(df_sorted, col_names, output_files=list(
         config["sample_output"].values()))
 
 
