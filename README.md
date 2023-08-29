@@ -1,7 +1,7 @@
 # AttributeSelectionAlgorithm
 1. Information about the dataset / sampling rate / stages of pipeline etc are to be entered in **config.yaml**
 
-2. Run the following code to install the dependencies associated with Python pcakages
+2. Run the following code to install the dependencies associated with Python packages
   `python3 -m pip install -r requirements.txt`
 
 ## Information about the pipeline
