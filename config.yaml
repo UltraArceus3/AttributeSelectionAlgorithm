@@ -92,7 +92,7 @@ rules_output: "../data/rules_out.csv"
 ##
 
 run:
-  sample_generation: True
+  sample_generation: False
   processed_data_generation: False
   feature_prune: False
-  attribute_selection: False
+  attribute_selection: True
