@@ -2,6 +2,7 @@ import polars as pl
 import random
 import Levenshtein
 import yaml
+from typing import Union
 
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -242,7 +243,7 @@ def time_code(df: pl.DataFrame, columns: list, tr_samps: list, out_file_1="./dat
     return times
 
 
-def attribute_sampling(df: pl.DataFrame, columns: list, output_files: str | list = "./out.1"):
+def attribute_sampling(df: pl.DataFrame, columns: list, output_files: Union[str, list]  = "./out.1"):
 
     tr_samp = [SAMPLE_RATE]
 
