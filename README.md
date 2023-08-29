@@ -1,5 +1,7 @@
 # AttributeSelectionAlgorithm
 
+Record Linkage is the process of consolidating data from several sources and capturing the records that are associated with the same entities, or individuals, where a unique identifier is not available. This project is a algorithm that helps the users to find out attributes that are good for performing record linkage. Using these attributes the accuracy of the linkage can be improved.
+
 ## Information about the pipeline
 1. We generate the random sample from the dataset. (Sampling rate is set in config.yaml)
 2. We use RLA_CL code written in C++ to generate the processed data. (RLA_CL is code for record linkage algorithm that was published in 2016)
