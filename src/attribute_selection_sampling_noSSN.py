@@ -10,7 +10,7 @@ with open('../config.yaml', 'r') as f:
 BLOCKING_ATTRIBUTE = config["BLOCKING_ATTRIBUTE"]
 # 3 - Last Name for Pseduopeople
 
-TOTAL_RATE = config["TOTAL_RATE"]
+SAMPLE_RATE = config["SAMPLE_RATE"]
 THRESHOLD = config["THRESHOLD"]
 
 dict_blocks = {}
@@ -128,18 +128,23 @@ def generatePairs(df_sorted: pl.DataFrame, index_duplicate: dict, key: int):
 """
 
 FUNCTION random_data_generation
-INPUT: df_sorted (dataframe containing original data in sorted order),de_duplicate(The list containing unique elements),index_duplicate(Dictionary containing information about location of records in de_duplicate inside original dataset),total_rate(Sampling rate)
+INPUT:  df_sorted (dataframe containing original data in sorted order)
+        de_duplicate(The list containing unique elements)
+        index_duplicate(Dictionary containing information about location of records in de_duplicate inside original dataset)
+        sample_rate(Sampling rate)
+
 OUTPUT: DOES NOT RETURN ANYTHING but generates sample of the original dataset based on the sampling rate.
+
 REFERS: generate_k_mer(),generatePairs()
 
 """
 
 
-def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_duplicate: dict, total_rate: float = TOTAL_RATE) -> None:
+def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_duplicate: dict, sample_rate: float = SAMPLE_RATE) -> None:
     """
 
         1.Generate Random records from de_duplicate
-        2.Total number of records to be generated are total_number of records (de_duplicate) * TOTAL_RATE
+        2.Total number of records to be generated are total_number of records (de_duplicate) * SAMPLE_RATE
         3.For every randomly generated record, find it's k-mers and the blocks associated to it.
         4.Go through every other record in the block from previous step and find the levenshtein distance betweehn them
         5.If the distance between records is less than or equal to threshold then add them to output.
@@ -148,7 +153,7 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     """
 
     samp = random.sample(range(0, len(de_duplicate)),
-                         int(len(de_duplicate) * total_rate))
+                         int(len(de_duplicate) * sample_rate))
 
     for i in range(len(samp)):
         print("Generating k-mers...", f"{i}/{len(samp)}", "\t" * 5, end='\r')
@@ -239,7 +244,7 @@ def time_code(df: pl.DataFrame, columns: list, tr_samps: list, out_file_1="./dat
 
 def attribute_sampling(df: pl.DataFrame, columns: list, output_files: str | list = "./out.1"):
 
-    tr_samp = [TOTAL_RATE]
+    tr_samp = [SAMPLE_RATE]
 
     if type(output_files) is str:
         out1 = f"{output_files}.1"
