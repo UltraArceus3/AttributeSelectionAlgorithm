@@ -3,6 +3,9 @@ import random
 import Levenshtein
 import yaml
 from typing import Union
+from numba import jit
+import edge_generation 
+import numpy as np
 
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -105,8 +108,7 @@ INPUT: A single String, k
 
 """
 
-
-def generate_k_mer(str_d, k: int) -> list:
+def generate_k_mer(str_d, k:int):
     if len(str_d) <= k:
         return [str_d]
 
@@ -118,10 +120,6 @@ def generatePairs(df_sorted: pl.DataFrame, index_duplicate: dict, key: int):
     output_records_sample.append(df_sorted[index_duplicate[key]])
     if (key + 1 < len(index_duplicate)) and (index_duplicate[key] != index_duplicate[key+1] - 1):
         output_records_sample.append(df_sorted[index_duplicate[key] + 1])
-
-
-
-
 
 
 
@@ -139,7 +137,6 @@ REFERS: generate_k_mer(),generatePairs()
 
 """
 
-
 def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_duplicate: dict, sample_rate: float = SAMPLE_RATE) -> None:
     """
 
@@ -155,36 +152,48 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     samp = random.sample(range(0, len(de_duplicate)),
                          int(len(de_duplicate) * sample_rate))
 
-    for i in range(len(samp)):
-        print("Generating k-mers...", f"{i}/{len(samp)}", "\t" * 5, end='\r')
-        kmer_index = set()
-        record = de_duplicate[samp[i]]
-        k_mer_list = generate_k_mer(record[BLOCKING_ATTRIBUTE], 3)
+    de_duplicate_np = np.array(de_duplicate,dtype=object)
+    samp_np = np.array(samp,dtype=int)
 
-        for kmer in k_mer_list:
-            if kmer in dict_blocks:
-                # print(kmer)
-                kmer_index = kmer_index.union(dict_blocks[kmer.lower()])
+    record_pre_out = edge_generation.edge_generation(de_duplicate_np,samp_np,BLOCKING_ATTRIBUTE,dict_blocks,THRESHOLD)
 
-        # print("Generating pairs...")
 
-        for index in kmer_index:
-            # generatePairs(df_sorted, index_duplicate, index)
-            tmp_record = de_duplicate[index]
-            l_dist = 0
+    # for i in range(len(samp)):
+    #     #print("Generating k-mers...", f"{i}/{len(samp)}", "\t" * 5, end='\r')
+    #     kmer_index = set()
+    #     record = de_duplicate[samp[i]]
+    #     k_mer_list = generate_k_mer(record[BLOCKING_ATTRIBUTE], 3)
 
-            for i in range(1, len(tmp_record)):
-                a = tmp_record[i]
-                b = record[i]
+    #     for kmer in k_mer_list:
+    #         if kmer in dict_blocks:
+    #             # print(kmer)
+    #             kmer_index = kmer_index.union(dict_blocks[kmer.lower()])
 
-                l_dist += Levenshtein.distance(a, b)
+    #     # print("Generating pairs...")
 
-                if l_dist > THRESHOLD:
-                    l_dist = THRESHOLD + 1
-                    break
+    #     for index in kmer_index:
+    #         # generatePairs(df_sorted, index_duplicate, index)
+    #         tmp_record = de_duplicate[index]
+    #         l_dist = 0
 
-            if l_dist <= THRESHOLD:
-                generatePairs(df_sorted, index_duplicate, index)
+    #         for i in range(1, len(tmp_record)):
+    #             a = tmp_record[i]
+    #             b = record[i]
+
+    #             l_dist += Levenshtein.distance(a, b)
+
+    #             if l_dist > THRESHOLD:
+    #                 l_dist = THRESHOLD + 1
+    #                 break
+            
+    #         if l_dist <= THRESHOLD:
+    #             record_pre_out.append(index)
+
+            # if l_dist <= THRESHOLD:
+            #     generatePairs(df_sorted, index_duplicate, index)
+
+    for i in range(len(record_pre_out)):
+        generatePairs(df_sorted, index_duplicate, record_pre_out[i])
 
 
 """
