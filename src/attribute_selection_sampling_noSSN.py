@@ -4,7 +4,8 @@ import Levenshtein
 import yaml
 from typing import Union
 from numba import jit
-import edge_generation 
+from edge_generation import edge_generation_c
+
 import numpy as np
 
 with open('../config.yaml', 'r') as f:
@@ -152,11 +153,24 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     samp = random.sample(range(0, len(de_duplicate)),
                          int(len(de_duplicate) * sample_rate))
 
-    de_duplicate_np = np.array(de_duplicate,dtype=object)
+    # de_duplicate_np = np.array(de_duplicate,dtype=np.str)
+    bytes_array = np.array([[s.encode() for s in row] for row in de_duplicate], dtype=bytes)
+
     samp_np = np.array(samp,dtype=int)
+    dict_blocks_map = {key.encode(): np.array(value,dtype=int) for key, value in dict_blocks.items()}
+    #print("Working till here!")
 
-    record_pre_out = edge_generation.edge_generation(de_duplicate_np,samp_np,BLOCKING_ATTRIBUTE,dict_blocks,THRESHOLD)
+    
+    #print(dict_blocks_map)
+    # dict_blocks_key = dict_blocks.keys()
+    # dict_blocks_key_bytes = np.array([val.encode() for val in dict_blocks_key],dtype=bytes)
+    # dict_blocks_val = dict_blocks.values()
+    #print("Length comparison",len(dict_blocks_key_bytes),len(dict_blocks_val))
 
+    record_pre_out = edge_generation_c(bytes_array,samp_np,BLOCKING_ATTRIBUTE,dict_blocks_map,THRESHOLD)
+    
+    for i in range(len(record_pre_out)):
+        generatePairs(df_sorted, index_duplicate, record_pre_out[i])
 
     # for i in range(len(samp)):
     #     #print("Generating k-mers...", f"{i}/{len(samp)}", "\t" * 5, end='\r')
@@ -192,8 +206,7 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
             # if l_dist <= THRESHOLD:
             #     generatePairs(df_sorted, index_duplicate, index)
 
-    for i in range(len(record_pre_out)):
-        generatePairs(df_sorted, index_duplicate, record_pre_out[i])
+    
 
 
 """
