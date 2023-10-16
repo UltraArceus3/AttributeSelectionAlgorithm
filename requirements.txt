@@ -1,4 +1,5 @@
 beautifulsoup4==4.12.2
+Cython==3.0.0
 matplotlib==3.7.2
 mlxtend==0.22.0
 pandas==2.0.1
