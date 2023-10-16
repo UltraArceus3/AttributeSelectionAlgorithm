@@ -37,9 +37,10 @@ Record Linkage is the process of consolidating data from several sources and cap
 
 ### Running the program
 1. It is advisable to create sample (Stage 1) by setting the value to True in **run** attribute while keeping every other attribute inside **run** to False. This will create sample and store it in appropriate location.
-2. In order to run the program, `cd src` and run the file `main.py`. 
-3. Other stages of the pipeline can run togther by changing the sub attributes in **run** to True and setting **sample_generation** to False. This is done so that program doesn't crash.
-4. Once all stages are completed, in order to find the attributes please take a look at **rules_out.csv** inside **data** folder.
+2. Change directory using `cd src` and run the following command `python3 setup.py build_ext --inplace`
+3. In order to run the program, run the file `main.py`. 
+4. Other stages of the pipeline can run togther by changing the sub attributes in **run** to True and setting **sample_generation** to False. This is done so that program doesn't crash.
+5. Once all stages are completed, in order to find the attributes please take a look at **rules_out.csv** inside **data** folder.
 
 ### Interpret the Output
 1. The headers of the output are attributes from the nout dataset set as integer value [0,1,2,3] and M,lift,leverage,convergence where M stands what value was there in Y for association rule (X --> Y)
