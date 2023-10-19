@@ -6,7 +6,7 @@ import subprocess
 import pandas as pd
 from parse_xml import parse_xml
 from feature_selection_data_prune import prune_feature_data
-from record_linkage_feature_selection_apriori import run_pipeline_ar as run_apriori
+from record_linkage_feature_selection_apriori import run_pipeline as run_apriori
 import time
 
 with open('../config.yaml', 'r') as f:
@@ -54,9 +54,9 @@ def call_RLA():
     generate_processed_data = subprocess.check_call([os.path.join(
         RLA_DIR, "bin/rlacl")] + [config["rla_xml_file"], str(len(sample_data)), "0", "0", "0", "0"])
 
-    subprocess.run(["mv", os.path.join(
-        RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
-
+    # subprocess.run(["mv", os.path.join(
+    #     RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
+    subprocess.run(["mv","feature_selection_processed_data_file.csv", "../data"])
 
 def feature_prune():
     prune_feature_data(path="../data/feature_selection_processed_data_file.csv",
