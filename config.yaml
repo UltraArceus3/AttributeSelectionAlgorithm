@@ -16,7 +16,7 @@ COMPARISON_ATTRIBUTE: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
 ##
 ## Sampling Rate (how much should be the size of sample with respect to the unique records in it)
 ##
-SAMPLE_RATE: 0.03
+SAMPLE_RATE: 0.02
 
 ##
 ## This is used to allow errors while identifying records. What is threshold tolerable while perfoming the linking.

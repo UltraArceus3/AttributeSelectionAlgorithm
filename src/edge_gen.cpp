@@ -18,7 +18,7 @@ std::vector<std::string> generate_kmer(const std::string& str_d,int k){
         k_mer_list.push_back(str_d);
     }
     else {
-        for(int i = 0; i <= (length - k);i++){
+        for(int i = 0; i < (length - (k-1));i++){
 		    k_mer_list.push_back(str_d.substr(i,k));
 	    }
     }
@@ -277,13 +277,6 @@ std::vector<int> EdgeGeneration(std::vector<std::vector<std::string>>& deDuplica
             for (int index : kmerIndex) {
                 
 
-                //std::cout << index << "\n";
-                //std::cout << "running dedup..." << std::endl;
-                // if (index > deDuplicate.size() ) {
-                //     //std::cout << index << "\n";
-                    
-                // }
-                    
                 std::vector<std::string> tmpRecord = deDuplicate[index];
                 // std::cout << "ran dedup" << std::endl;
                 // std::cout << index << std::endl;
@@ -291,12 +284,13 @@ std::vector<int> EdgeGeneration(std::vector<std::vector<std::string>>& deDuplica
                 
                 int lDist = 0;
 
-                for (int j = 0; j < tmpRecord.size(); j++) {
+                for (int j = 1; j < tmpRecord.size(); j++) {
                     std::string& a = tmpRecord[j];
                     std::string& b = record[j];
+					
 
                     //lDist += LevenshteinDistance(a, b);
-                    lDist += calculateBasicED(a,b,1,1);
+                    lDist += calculateBasicED(a,b,threshold,threshold);
                     if (lDist > threshold) {
                         lDist = threshold + 1;
                         break;

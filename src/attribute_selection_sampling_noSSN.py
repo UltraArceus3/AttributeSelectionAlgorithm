@@ -160,13 +160,6 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     dict_blocks_map = {key.encode(): np.array(value,dtype=int) for key, value in dict_blocks.items()}
     #print("Working till here!")
 
-    
-    #print(dict_blocks_map)
-    # dict_blocks_key = dict_blocks.keys()
-    # dict_blocks_key_bytes = np.array([val.encode() for val in dict_blocks_key],dtype=bytes)
-    # dict_blocks_val = dict_blocks.values()
-    #print("Length comparison",len(dict_blocks_key_bytes),len(dict_blocks_val))
-
     record_pre_out = edge_generation_c(bytes_array,samp_np,BLOCKING_ATTRIBUTE,dict_blocks_map,THRESHOLD)
     
     for i in range(len(record_pre_out)):
@@ -200,11 +193,11 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     #                 l_dist = THRESHOLD + 1
     #                 break
             
-    #         if l_dist <= THRESHOLD:
-    #             record_pre_out.append(index)
+    #         # if l_dist <= THRESHOLD:
+    #         #     record_pre_out.append(index)
 
-            # if l_dist <= THRESHOLD:
-            #     generatePairs(df_sorted, index_duplicate, index)
+    #         if l_dist <= THRESHOLD:
+    #             generatePairs(df_sorted, index_duplicate, index)
 
     
 

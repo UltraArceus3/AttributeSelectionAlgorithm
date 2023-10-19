@@ -6,7 +6,7 @@ from generateChart import plotChart
 from decimal import *
 import os
 from dataclasses import dataclass
-from arulespy.arules import Transactions, apriori, parameters
+#from arulespy.arules import Transactions, apriori, parameters
 
 
 
@@ -50,7 +50,7 @@ def save_to_csv(rules: list, _file="../.output/rules.csv", _not_have="-"):
         convs.append(rule[4])
 
     # Sorts Rule Collection (so it is 1, 2, 3, 4)
-    vals = dict(sorted(vals.items()))
+    vals = dict(sorted(vals.items(), key = lambda x: int(x[0])))
     vals.keys()
 
     # Create CSV
@@ -155,37 +155,40 @@ def run_pipeline(src, output_file="../.output/rules.csv"):
     print("Frequent itemsets generated")
     # print(frequent_itemsets)
     rules = generate_rules(frequent_itemsets)
+    print(rules)
     # print(rules[0:15])
 
     print("Saving rules to CSV...")
     save_to_csv(rules, _file=output_file)
     print("Saved to CSV!")
 
-def run_pipeline_ar(src, output_file="../.output/rules.csv"):
-    """
-        1. Read the data from input file and transofrm it.
-        2. Pass it through fp-growth function to generate frequent itemsets.
-        3. Pass the frequent itemset to generate_rules() function so that association rules (X --> Y) where Y is match are generated
-        4. Push the good rules to output.
+# def run_pipeline_ar(src, output_file="../.output/rules.csv"):
+#     """
+#         1. Read the data from input file and transofrm it.
+#         2. Pass it through fp-growth function to generate frequent itemsets.
+#         3. Pass the frequent itemset to generate_rules() function so that association rules (X --> Y) where Y is match are generated
+#         4. Push the good rules to output.
 
-    """
-    df = pd.read_csv(src, header=None)
-    cols = [f"Attr_{i}" for i in range(1, len(df.columns))] + ['match']
+#     """
+#     df = pd.read_csv(src, header=None)
+#     cols = [f"Attr_{i}" for i in range(1, len(df.columns))] + ['match']
 
-    df.columns = cols
+#     df.columns = cols
 
-    df = df.astype(str)
+#     df = df.astype(str)
 
-    trans = Transactions.from_df(df)
+#     trans = Transactions.from_df(df)
 
-    rules = apriori(trans,
-                    parameter = parameters({"supp": 0.0001}), 
-                    control = parameters({"verbose": False}))  
+#     rules = apriori(trans,
+#                     parameter = parameters({"supp": 0.0001}), 
+#                     control = parameters({"verbose": False}))  
     
-    #rules = rules[[not x for x in rules.is_redundant()]].as_df()
-    rules = rules.sort(by = 'lift').as_df()
-    rules_lst = rules.values.tolist()
-    print(rules_lst)
+#     #rules = rules[[not x for x in rules.is_redundant()]].as_df()
+#     rules = rules.sort(by = 'lift').as_df()
+#     rules_lst = rules.values.tolist()
+#     print("Saving rules to CSV...")
+#     save_to_csv(rules_lst, _file=output_file)
+#     print("Saved to CSV!")
 
 def main():
 
