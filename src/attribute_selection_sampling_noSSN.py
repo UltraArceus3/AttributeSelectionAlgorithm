@@ -3,7 +3,6 @@ import random
 import Levenshtein
 import yaml
 from typing import Union
-from numba import jit
 from edge_generation import edge_generation_c
 
 import numpy as np
