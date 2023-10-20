@@ -1,8 +1,9 @@
 # AttributeSelectionAlgorithm
 1. Information about the dataset / sampling rate / stages of pipeline etc are to be entered in **config.yaml**
-
-2. Run the following code to install the dependencies associated with Python packages
+2. This code requires Python3/gcc to be installed on the system.
+3. Run the following code to install the dependencies associated with Python packages
   `python3 -m pip install -r requirements.txt`
+4. Installing libraries to run the RLA code `sudo apt install libxml2-dev libboost-regex-dev libmpich-dev libboost-log-dev`
 
 ## Information about the pipeline
 1. We generate the random sample from the dataset. (Sampling rate is set in config.yaml)
