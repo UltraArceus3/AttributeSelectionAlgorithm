@@ -6,6 +6,8 @@ from generateChart import plotChart
 from decimal import *
 import os
 from dataclasses import dataclass
+#from arulespy.arules import Transactions, apriori, parameters
+
 
 
 """
@@ -48,7 +50,7 @@ def save_to_csv(rules: list, _file="../.output/rules.csv", _not_have="-"):
         convs.append(rule[4])
 
     # Sorts Rule Collection (so it is 1, 2, 3, 4)
-    vals = dict(sorted(vals.items()))
+    vals = dict(sorted(vals.items(), key = lambda x: int(x[0])))
     vals.keys()
 
     # Create CSV
@@ -153,11 +155,13 @@ def run_pipeline(src, output_file="../.output/rules.csv"):
     print("Frequent itemsets generated")
     # print(frequent_itemsets)
     rules = generate_rules(frequent_itemsets)
+    print(rules)
     # print(rules[0:15])
 
     print("Saving rules to CSV...")
     save_to_csv(rules, _file=output_file)
     print("Saved to CSV!")
+
 
 
 def main():

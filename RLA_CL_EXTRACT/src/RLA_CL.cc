@@ -1327,7 +1327,7 @@ void findExactClusterPart(int indSub, int indSup)
 
 void saveTransactions(vector<vector<string> >& output_transaction, string output_file){
     ofstream myfile;
-    myfile.open (output_file);
+    myfile.open(output_file,ios::app);
     for (int i = 0; i < output_transaction.size(); i++){
         for (int j = 0; j < output_transaction[i].size(); j++){
             if (j == (output_transaction[i].size() - 1)){
@@ -2878,6 +2878,7 @@ int calculateEditDist(vector<string>& a, vector<string>& b, vector<vector<int> >
 
 
 	if (output_transaction.size() > 100000) {
+		saveTransactions(output_transaction,"feature_selection_processed_data_file.csv");
 		output_transaction.clear();
 	}
 	else {

@@ -1,6 +1,9 @@
 # AttributeSelectionAlgorithm
-
-Record Linkage is the process of consolidating data from several sources and capturing the records that are associated with the same entities, or individuals, where a unique identifier is not available. This project is a algorithm that helps the users to find out attributes that are good for performing record linkage. Using these attributes the accuracy of the linkage can be improved.
+1. Information about the dataset / sampling rate / stages of pipeline etc are to be entered in **config.yaml**
+2. This code requires Python3/gcc to be installed on the system.
+3. Run the following code to install the dependencies associated with Python packages
+  `python3 -m pip install -r requirements.txt`
+4. Installing libraries to run the RLA code `sudo apt install libxml2-dev libboost-regex-dev libmpich-dev libboost-log-dev`
 
 ## Information about the pipeline
 1. We generate the random sample from the dataset. (Sampling rate is set in config.yaml)
@@ -36,14 +39,14 @@ Record Linkage is the process of consolidating data from several sources and cap
 3. DO NOT touch this setting if you are using sampling.
 
 ### Running the program
-1. It is advisable to create sample (Stage 1) by setting the value to True in **run** attribute while keeping every other attribute inside **run** to False. This will create sample and store it in appropriate location.
-2. Change directory using `cd src` and run the following command `python3 setup.py build_ext --inplace`
-3. In order to run the program, run the file `main.py`. 
-4. Other stages of the pipeline can run togther by changing the sub attributes in **run** to True and setting **sample_generation** to False. This is done so that program doesn't crash.
-5. Once all stages are completed, in order to find the attributes please take a look at **rules_out.csv** inside **data** folder.
+1. Run `python3 setup.py build_ext --inplace` inside **src** folder. This compiles the cython code.
+1. In order to run the program, run the file `main.py` inside **src** folder.
+2. It is advisable to create sample (Stage 1) by setting the value to True in **run** attribute while keeping every other attribute inside **run** to False. This will create sample and store it in appropriate location.
+3. Other stages of the pipeline can run togther by changing the sub attributes in **run** to True and setting **sample_generation** to False. This is done so that program doesn't crash.
+4. Once all stages are completed, in order to find the attributes please take a look at **rules_out.csv** inside **data** folder.
 
 ### Interpret the Output
-1. The headers of the output are attributes from the nout dataset set as integer value [0,1,2,3] and M,lift,leverage,convergence where M stands what value was there in Y for association rule (X --> Y)
+1. The headers of the output are attributes from the input dataset set as integer value [0,1,2,3] and M,lift,leverage,convergence where M stands what value was there in Y for association rule (X --> Y)
 2. The contents may have values like 0,1,2 which stands for the edit distance for the respective attribute.
 3. The output is sorted with best rules at the top (Having high value for lift,conviction and leverage)
    

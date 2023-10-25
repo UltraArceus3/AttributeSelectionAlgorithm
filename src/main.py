@@ -7,6 +7,7 @@ import pandas as pd
 from parse_xml import parse_xml
 from feature_selection_data_prune import prune_feature_data
 from record_linkage_feature_selection_apriori import run_pipeline as run_apriori
+import time
 
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -53,9 +54,9 @@ def call_RLA():
     generate_processed_data = subprocess.check_call([os.path.join(
         RLA_DIR, "bin/rlacl")] + [config["rla_xml_file"], str(len(sample_data)), "0", "0", "0", "0"])
 
-    subprocess.run(["mv", os.path.join(
-        RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
-
+    # subprocess.run(["mv", os.path.join(
+    #     RLA_DIR, "feature_selection_processed_data_file.csv"), "../data"])
+    subprocess.run(["mv","feature_selection_processed_data_file.csv", "../data"])
 
 def feature_prune():
     prune_feature_data(path="../data/feature_selection_processed_data_file.csv",
@@ -71,9 +72,13 @@ if __name__ == "__main__":
     # exit()
 
     if config["run"]["sample_generation"]:
+        
         print("Running attribute selection sampling...\n")
+        start = time.time()
         sample_generation()
-
+        end = time.time()
+        print("Time Taken for Sampling:",(end-start))
+        
     if config["run"]["processed_data_generation"]:
         print("Running RLA_CL_EXTRACT...\n")
         call_RLA()
@@ -82,8 +87,11 @@ if __name__ == "__main__":
         print("Running feature pruning...\n")
         feature_prune()
 
+    start = time.time()
     if config["run"]["attribute_selection"]:
         print("Running apriori...\n")
         apriori()
+    end = time.time()
+    print("Time Taken for Frequent Itemset",(end-start))
 
     print("Done!")
