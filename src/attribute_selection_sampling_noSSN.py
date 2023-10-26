@@ -68,11 +68,6 @@ def de_duplication(dataset: pl.DataFrame):
     for i in range(len(de_duplicate)):
         de_duplicate[i] = [str(x).lower() for x in de_duplicate[i]]
 
-    # pl_de_duplicate = pd.DataFrame(de_duplicate)
-    # print("De-duplicate",de_duplicate[1])
-    # print("Original",dataset_pand_lst[0:5])
-    # print(index_original_df[1])
-    # print(pl_de_duplicate)
     return de_duplicate, index_original_df
 
 
@@ -163,43 +158,7 @@ def random_data_generation(df_sorted: pl.DataFrame, de_duplicate: list, index_du
     
     for i in range(len(record_pre_out)):
         generatePairs(df_sorted, index_duplicate, record_pre_out[i])
-
-    # for i in range(len(samp)):
-    #     #print("Generating k-mers...", f"{i}/{len(samp)}", "\t" * 5, end='\r')
-    #     kmer_index = set()
-    #     record = de_duplicate[samp[i]]
-    #     k_mer_list = generate_k_mer(record[BLOCKING_ATTRIBUTE], 3)
-
-    #     for kmer in k_mer_list:
-    #         if kmer in dict_blocks:
-    #             # print(kmer)
-    #             kmer_index = kmer_index.union(dict_blocks[kmer.lower()])
-
-    #     # print("Generating pairs...")
-
-    #     for index in kmer_index:
-    #         # generatePairs(df_sorted, index_duplicate, index)
-    #         tmp_record = de_duplicate[index]
-    #         l_dist = 0
-
-    #         for i in range(1, len(tmp_record)):
-    #             a = tmp_record[i]
-    #             b = record[i]
-
-    #             l_dist += Levenshtein.distance(a, b)
-
-    #             if l_dist > THRESHOLD:
-    #                 l_dist = THRESHOLD + 1
-    #                 break
-            
-    #         # if l_dist <= THRESHOLD:
-    #         #     record_pre_out.append(index)
-
-    #         if l_dist <= THRESHOLD:
-    #             generatePairs(df_sorted, index_duplicate, index)
-
     
-
 
 """
 
