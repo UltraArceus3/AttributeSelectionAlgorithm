@@ -7,7 +7,7 @@ polars==0.19.8
 pseudopeople==0.8.3
 python_Levenshtein==0.23.0
 PyYAML==6.0.1
-pillow==10.0.1
+pillow==10.2.0
 pyarrow==14.0.1
 fonttools==4.43.0
 setuptools==69.0.3
